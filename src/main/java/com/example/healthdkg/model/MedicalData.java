@@ -16,6 +16,7 @@ import java.util.List;
 public class MedicalData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "medical_data_id")
     private int medicalDataId;
 
     @OneToOne
