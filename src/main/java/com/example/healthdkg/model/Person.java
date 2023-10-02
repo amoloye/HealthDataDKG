@@ -12,13 +12,15 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Entity
 @Builder
-public class MedicalSpeciality {
+@Entity
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int specialityId;
-    private String specialityName;
+    private String personalCode;
 
+    private String emailAddress;
+    private String name;
+    private String familyName;
 }
