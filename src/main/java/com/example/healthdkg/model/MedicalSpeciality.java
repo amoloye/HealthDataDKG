@@ -1,24 +1,27 @@
 package com.example.healthdkg.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-@Getter
-@Setter
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Builder
+@Table(name = "medical_speciality")
 public class MedicalSpeciality {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int specialityId;
+    @Column(name = "speciality_id")
+    private Long specialityId;
+
+    @NotBlank(message = "Speciality name is required")
+    @Column(name = "speciality_name")
     private String specialityName;
 
+    // Getters and setters
 }

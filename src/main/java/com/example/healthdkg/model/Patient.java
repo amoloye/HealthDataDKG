@@ -6,21 +6,21 @@ import lombok.*;
 import java.util.List;
 
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Builder
+@Table(name = "patient")
 public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "patient_id")
     private int patientId;
 
     @OneToOne
-    @JoinColumn(name = "person_personal_code")
+    @JoinColumn(name = "person_id")
     private Person person;
 
     @OneToMany

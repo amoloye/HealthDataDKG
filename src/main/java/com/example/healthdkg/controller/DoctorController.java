@@ -15,16 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/doctor")
+@RequestMapping("/health")
 @RequiredArgsConstructor
 public class DoctorController {
 
     private final DoctorService doctorService;
 
-    @PostMapping
+    @PostMapping("/doctors")
     public ResponseEntity<List<Doctor>> saveDoctors (@Valid @RequestBody  List<Doctor> doctors){
-        return new ResponseEntity<>(doctorService.createDoctor(doctors), HttpStatus.OK);
+        return new ResponseEntity<>(doctorService.createDoctors(doctors), HttpStatus.OK);
 
     }
+
+    @PostMapping("/doctor")
+    public ResponseEntity<Doctor> saveDoctor (@Valid @RequestBody  Doctor doctor){
+        return new ResponseEntity<>(doctorService.createDoctor(doctor), HttpStatus.OK);
+
+    }
+
+
 
 }

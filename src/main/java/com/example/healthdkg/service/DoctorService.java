@@ -13,8 +13,13 @@ public class DoctorService {
 
     private final DoctorRepository doctorRepository;
 
-    public List<Doctor> createDoctor (List<Doctor> doctors){
+    public List<Doctor> createDoctors (List<Doctor> doctors){
         return doctorRepository.saveAll(doctors);
+    }
+
+    public Doctor createDoctor (Doctor doctor){
+        return  doctorRepository.save(doctor);
+
     }
 
 
