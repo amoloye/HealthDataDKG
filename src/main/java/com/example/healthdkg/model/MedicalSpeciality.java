@@ -1,9 +1,13 @@
 package com.example.healthdkg.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 
 @Data
@@ -23,5 +27,8 @@ public class MedicalSpeciality {
     @Column(name = "speciality_name")
     private String specialityName;
 
-    // Getters and setters
+    @JsonIgnore
+    @OneToMany
+    @JoinColumn(name = "doctor_id")
+    private List<Doctor> doctor;
 }

@@ -1,11 +1,12 @@
 package com.example.healthdkg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -28,15 +29,33 @@ public class Doctor {
     @Column(name = "license_valid_till")
     private LocalDateTime licenseValidTill;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="speciality_id", referencedColumnName = "speciality_id")
-    @NotNull(message = "Medical speciality is required")
     private MedicalSpeciality medicalSpeciality;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-    @NotNull(message = "Person details are required")
-    private Person person;
+    @NotBlank(message = "Personal code is required")
+    @Pattern(regexp = "[0-9]{11}", message = "Personal code should be 11 digits")
+    private String personalCode;
 
-    // Getters and setters
+    @NotBlank(message = "Email address is required")
+    @Email(message = "Invalid email address")
+    @Column(name = "email_address")
+    private String emailAddress;
+
+    @NotBlank(message = "Name is required")
+    @Column(name = "name")
+    private String name;
+
+    @NotBlank(message = "Family name is required")
+    @Column(name = "family_name")
+    private String familyName;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "doctor_medical_data",
+            joinColumns = @JoinColumn(name = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "medical_data_id")
+    )
+    private List<MedicalData> medicalDataList;
 }
+

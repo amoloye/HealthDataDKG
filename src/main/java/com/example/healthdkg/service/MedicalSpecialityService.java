@@ -14,12 +14,20 @@ public class MedicalSpecialityService {
 
     private final MedicalSpecialityRepository specialityRepository;
 
-    public List<MedicalSpeciality> createSpecialities (List<MedicalSpeciality> specialities){
-        return specialityRepository.saveAll(specialities);
+    public List<MedicalSpeciality> createSpecialities(List<MedicalSpeciality> specialities) {
+        try {
+            return specialityRepository.saveAll(specialities);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create specialities: " + e.getMessage());
+        }
     }
 
-    public MedicalSpeciality createSpeciality (MedicalSpeciality speciality){
-        return specialityRepository.save(speciality);
+    public MedicalSpeciality createSpeciality(MedicalSpeciality speciality) {
+        try {
+            return specialityRepository.save(speciality);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create speciality: " + e.getMessage());
+        }
     }
-
 }
+
