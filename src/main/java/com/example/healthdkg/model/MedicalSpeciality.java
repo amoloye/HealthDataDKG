@@ -19,7 +19,6 @@ import java.util.List;
 public class MedicalSpeciality {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "speciality_id")
     private Long specialityId;
 
@@ -27,8 +26,4 @@ public class MedicalSpeciality {
     @Column(name = "speciality_name")
     private String specialityName;
 
-    @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "doctor_id")
-    private List<Doctor> doctor;
 }

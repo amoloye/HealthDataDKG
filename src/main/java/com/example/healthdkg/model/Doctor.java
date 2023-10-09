@@ -27,7 +27,7 @@ public class Doctor {
     private LocalDateTime licenseValidTill;
 
     @ManyToOne
-    @JoinColumn(name="speciality_id", referencedColumnName = "speciality_id")
+    @JoinColumn(name = "speciality_id")
     private MedicalSpeciality medicalSpeciality;
 
     private String personalCode;
@@ -41,13 +41,5 @@ public class Doctor {
     @Column(name = "family_name")
     private String familyName;
 
-    @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "doctor_medical_data",
-            joinColumns = @JoinColumn(name = "doctor_id"),
-            inverseJoinColumns = @JoinColumn(name = "medical_data_id")
-    )
-    private List<MedicalData> medicalDataList;
 }
 

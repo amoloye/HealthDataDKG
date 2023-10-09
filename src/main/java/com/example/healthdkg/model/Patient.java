@@ -40,9 +40,4 @@ public class Patient {
     @Column(name = "family_name")
     private String familyName;
 
-    @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "medical_data_id")
-    private List<MedicalData> medicalDataList;
-
 }

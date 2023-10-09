@@ -14,19 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 
 public class MedicalDataDto {
-    public MedicalDataDto (Long medicalDataId, List<Long> doctorIds,
-                           Long patientId, String classifier, String doctorsReport,
-                           LocalDateTime localDateTime, int sensitivityLevelValue) {
-        this.medicalDataId = medicalDataId;
-        this.doctorIds = doctorIds;
-        this.patientId = patientId;
-        this.classifier = classifier;
-        this.doctorsReport = doctorsReport;
-        this.localDateTime = LocalDateTime.now();
-        this.sensitivityLevelValue = sensitivityLevelValue;
-    }
 
-    private Long medicalDataId;
 
     @NotNull(message = "Doctor IDs are required")
     @Size(min = 1, message = "At least one Doctor ID is required")
@@ -41,8 +29,7 @@ public class MedicalDataDto {
     @NotBlank(message = "Doctors Report is required")
     private String doctorsReport;
 
-    @NotNull(message = "Local Date Time is required")
-    private LocalDateTime localDateTime;
+    private LocalDateTime localDateTime= LocalDateTime.now();
 
     @NotNull(message = "Sensitivity Level Value is required")
     @Range(min=0, max=3, message = "Sensitivity level has to be between 0-3")

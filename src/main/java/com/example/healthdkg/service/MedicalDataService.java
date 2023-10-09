@@ -51,8 +51,8 @@ public class MedicalDataService {
         medicalData.setClassifier(medicalDataDto.getClassifier());
         medicalData.setDoctorsReport(medicalDataDto.getDoctorsReport());
         medicalData.setSensitivityLevel(
-                MedicalDataSensitivityLevel.valueOf(String.valueOf(medicalDataDto.getSensitivityLevelValue()))
-        );
+                MedicalDataSensitivityLevel.fromValue(medicalDataDto.getSensitivityLevelValue()));
+
 
         // Set other fields
 
@@ -60,7 +60,6 @@ public class MedicalDataService {
     }
 
     private MedicalData getMedicalData (MedicalDataDto dto) {
-        Long medicalDataId = dto.getMedicalDataId();
         List<Long> doctorIds = dto.getDoctorIds();
         Long patientId = dto.getPatientId();
         String classifier = dto.getClassifier();
@@ -79,7 +78,6 @@ public class MedicalDataService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid patient ID provided."));
 
         return new MedicalData(
-                medicalDataId,
                 doctors,
                 patient,
                 classifier,
