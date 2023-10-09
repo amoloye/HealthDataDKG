@@ -1,6 +1,7 @@
 package com.example.healthdkg.controller;
 
 
+import com.example.healthdkg.dto.DoctorRequestDto;
 import com.example.healthdkg.model.Doctor;
 import com.example.healthdkg.service.DoctorService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/health")
@@ -20,16 +22,22 @@ public class DoctorController {
     private final DoctorService doctorService;
 
     @PostMapping("/doctors")
-    public ResponseEntity<List<Doctor>> saveDoctors(@RequestBody List<Doctor> doctors) {
+    public ResponseEntity<List<Doctor>> createDoctors( @RequestBody List<DoctorRequestDto> doctorRequestDtos) {
+        List<Doctor> doctors = doctorRequestDtos.stream()
+                .map(doctorService::mapDtoToDoctor)
+                .collect(Collectors.toList());
+
         List<Doctor> savedDoctors = doctorService.createDoctors(doctors);
-        return new ResponseEntity<>(savedDoctors, HttpStatus.OK);
+
+        return new ResponseEntity<>(savedDoctors, HttpStatus.CREATED);
     }
 
-
     @PostMapping("/doctor")
-    public ResponseEntity<Doctor> saveDoctor( @RequestBody Doctor doctor) {
+    public ResponseEntity<Doctor> createDoctor( @RequestBody DoctorRequestDto doctorRequestDto) {
+        Doctor doctor = doctorService.mapDtoToDoctor(doctorRequestDto);
         Doctor savedDoctor = doctorService.createDoctor(doctor);
-        return new ResponseEntity<>(savedDoctor, HttpStatus.OK);
+
+        return new ResponseEntity<>(savedDoctor, HttpStatus.CREATED);
     }
 
     @GetMapping("/doctor")

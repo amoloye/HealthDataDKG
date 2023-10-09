@@ -1,5 +1,6 @@
 package com.example.healthdkg.service;
 
+import com.example.healthdkg.dto.DoctorRequestDto;
 import com.example.healthdkg.model.Doctor;
 import com.example.healthdkg.model.MedicalSpeciality;
 import com.example.healthdkg.repository.DoctorRepository;
@@ -25,32 +26,32 @@ public class DoctorService {
     public List<Doctor> createDoctors(List<Doctor> doctors) {
         List<Doctor> savedDoctors = new ArrayList<>();
         for (Doctor doctor : doctors) {
-            if (checkSpecialityExistence(doctor)) {
-                savedDoctors.add(doctorRepository.save(doctor));
-            } else {
-                throw new IllegalArgumentException("Medical Speciality not found for id: " + doctor.getMedicalSpeciality().getSpecialityId());
-            }
+            savedDoctors.add(doctorRepository.save(doctor));
         }
         return savedDoctors;
     }
 
     public Doctor createDoctor(Doctor doctor) {
-        if (checkSpecialityExistence(doctor)) {
-            return doctorRepository.save(doctor);
-        } else {
-            throw new IllegalArgumentException("Medical Speciality not found for id: " + doctor.getMedicalSpeciality().getSpecialityId());
-        }
+        return doctorRepository.save(doctor);
     }
 
-    private boolean checkSpecialityExistence(Doctor doctor) {
-        MedicalSpeciality medicalSpeciality = doctor.getMedicalSpeciality();
-        if (medicalSpeciality != null) {
-            Long specialityId = medicalSpeciality.getSpecialityId();
-            return specialityRepository.findById(specialityId).isPresent();
-        }
-        return true; // If no speciality provided, return true
-    }
+    public Doctor mapDtoToDoctor(DoctorRequestDto dto) {
+        Doctor doctor = new Doctor();
+        doctor.setLegalCode(dto.getLegalCode());
+        doctor.setLicenseValidTill(dto.getLicenseValidTill());
 
+        MedicalSpeciality speciality = specialityRepository.findById(dto.getSpecialityId())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Medical Speciality not found for id: " + dto.getSpecialityId()));
+        doctor.setMedicalSpeciality(speciality);
+
+        doctor.setPersonalCode(dto.getPersonalCode());
+        doctor.setEmailAddress(dto.getEmailAddress());
+        doctor.setName(dto.getName());
+        doctor.setFamilyName(dto.getFamilyName());
+
+        return doctor;
+    }
 
 
     public Page<Doctor> getDoctorList (int offset, int pageSize){
