@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -59,21 +61,35 @@ public class DoctorService {
         return doctorRepository.findAll(pageable);
     }
 
-
-    Doctor getDoctor (Long doctorId) {
-        return doctorRepository.findById(doctorId).orElseThrow(
-                () -> new IllegalArgumentException("Invalid doctor ID provided.")
-        );
+    public List<Doctor> getDoctorListBySpecialityId(Long specialityId) {
+        return doctorRepository.findAllByMedicalSpeciality_SpecialityId(specialityId);
     }
 
-    boolean isDoctorInList (List<Doctor> doctors, Long doctorId) {
+
+
+
+
+
+    public Doctor getDoctor(Long doctorId) {
+        return doctorRepository.findById(doctorId).orElse(null);
+    }
+
+    public boolean isDoctorInList(List<Doctor> doctors, Long doctorId) {
         return doctors.stream()
-                .anyMatch(doc -> doc.getDoctorId().equals(doctorId));
+                .anyMatch(doctor -> doctor.getDoctorId().equals(doctorId));
     }
 
-    boolean doesDoctorHaveMatchingSpeciality (List<Doctor> doctors, MedicalSpeciality speciality) {
+
+    public boolean doesDoctorHaveMatchingSpeciality(List<Doctor> doctors, List<Doctor> doctorList) {
+        Set<Long> specialityIds = doctorList.stream()
+                .map(doctor -> doctor.getMedicalSpeciality().getSpecialityId())
+                .collect(Collectors.toSet());
+
         return doctors.stream()
-                .anyMatch(doc -> doc.getMedicalSpeciality().equals(speciality));
+                .anyMatch(doctor -> specialityIds.contains(doctor.getMedicalSpeciality().getSpecialityId()));
     }
+
+
+
 
 }

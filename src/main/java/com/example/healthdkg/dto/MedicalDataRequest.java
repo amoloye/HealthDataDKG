@@ -15,6 +15,8 @@ public class MedicalDataRequest {
 
     private Long doctorId;
     private List<Long> patientIds;
+    private int offset;
+    private int pageSize;
 
 
 }
