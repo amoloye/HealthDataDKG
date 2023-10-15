@@ -58,7 +58,7 @@ public class MedicalDataService {
     }
 
 
-    //main fucntion to query medical data
+    //main function to query medical data
 
     public Page<MedicalDataResponse> getMedicalDataBySensitivityLevel(
             MedicalDataRequest request, int offset, int pageSize) {

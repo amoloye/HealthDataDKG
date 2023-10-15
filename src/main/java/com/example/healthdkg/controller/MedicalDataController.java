@@ -3,6 +3,7 @@ package com.example.healthdkg.controller;
 import com.example.healthdkg.dto.MedicalDataDto;
 import com.example.healthdkg.dto.MedicalDataRequest;
 import com.example.healthdkg.dto.MedicalDataResponse;
+import com.example.healthdkg.model.MedicalData;
 import com.example.healthdkg.service.MedicalDataService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,13 @@ public class MedicalDataController {
         Page<MedicalDataResponse> medicalData =
                 medicalDataService.getMedicalDataBySensitivityLevel(request, offset, pageSize);
         return ResponseEntity.ok(medicalData);
+    }
+
+    @GetMapping("/get-by-patient-ids")
+    public ResponseEntity<List<MedicalData>> getMedicalDataByPatientIds(@RequestBody MedicalDataRequest request) {
+        List<Long> patientIds = request.getPatientIds();
+        List<MedicalData> medicalDataList =
+                medicalDataService.getMedicalDataByPatientIds((MedicalDataRequest) patientIds);
+        return ResponseEntity.ok(medicalDataList);
     }
 }
