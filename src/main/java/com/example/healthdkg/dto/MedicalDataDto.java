@@ -3,6 +3,7 @@ package com.example.healthdkg.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
@@ -14,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 
 public class MedicalDataDto {
-
 
     @NotNull(message = "Doctor IDs are required")
     @Size(min = 1, message = "At least one Doctor ID is required")
@@ -29,7 +29,7 @@ public class MedicalDataDto {
     @NotBlank(message = "Doctors Report is required")
     private String doctorsReport;
 
-    private LocalDateTime localDateTime= LocalDateTime.now();
+    private LocalDateTime localDateTime=LocalDateTime.now();
 
     @NotNull(message = "Sensitivity Level Value is required")
     @Range(min=0, max=3, message = "Sensitivity level has to be between 0-3")

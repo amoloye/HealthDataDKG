@@ -14,17 +14,6 @@ import java.util.List;
 @Table(name = "medical_data")
 public class MedicalData {
 
-    public MedicalData ( List<Doctor> doctors, Patient patient,
-                        String classifier, String doctorsReport, LocalDateTime localDateTime,
-                        MedicalDataSensitivityLevel sensitivityLevel) {
-        this.doctors = doctors;
-        this.patient = patient;
-        this.classifier = classifier;
-        this.doctorsReport = doctorsReport;
-        this.localDateTime = localDateTime;
-        this.sensitivityLevel = sensitivityLevel;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "medical_data_id")

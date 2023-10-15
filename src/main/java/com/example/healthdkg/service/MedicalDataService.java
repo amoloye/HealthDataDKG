@@ -6,7 +6,6 @@ import com.example.healthdkg.dto.MedicalDataResponse;
 import com.example.healthdkg.model.*;
 import com.example.healthdkg.repository.DoctorRepository;
 import com.example.healthdkg.repository.MedicalDataRepository;
-import com.example.healthdkg.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,30 +22,37 @@ public class MedicalDataService {
 
     private final MedicalDataRepository medicalDataRepository;
     private final DoctorRepository doctorRepository;
-    private final PatientRepository patientRepository;
     private final DoctorService doctorService;
+    private final PatientService patientService;
 
+    private List<Doctor> getDoctors(List<Long> doctorIds) {
+        return doctorRepository.findAllById(doctorIds);
+    }
+
+    private Patient getPatient(Long patientId) {
+        return patientService.getPatient(patientId);
+    }
 
     private MedicalData convertToMedicalData(MedicalDataDto medicalDataDto) {
         MedicalData medicalData = new MedicalData();
         medicalData.setClassifier(medicalDataDto.getClassifier());
+        medicalData.setLocalDateTime(medicalDataDto.getLocalDateTime());
         medicalData.setDoctorsReport(medicalDataDto.getDoctorsReport());
         medicalData.setSensitivityLevel(
                 MedicalDataSensitivityLevel.fromValue(medicalDataDto.getSensitivityLevelValue()));
 
+        // Set Doctors and Patient
+        List<Doctor> doctors = getDoctors(medicalDataDto.getDoctorIds());
+        Patient patient = getPatient(medicalDataDto.getPatientId());
+        medicalData.setDoctor(doctors);
+        medicalData.setPatient(patient);
 
-        // Set other fields
 
         return medicalData;
     }
 
     public void saveMedicalData(MedicalDataDto medicalDataDto) {
         MedicalData medicalData = convertToMedicalData(medicalDataDto);
-
-        // Associate Doctors with MedicalData
-        List<Doctor> doctors = doctorRepository.findAllById(medicalDataDto.getDoctorIds());
-        medicalData.setDoctor(doctors);
-
         medicalDataRepository.save(medicalData);
     }
 
