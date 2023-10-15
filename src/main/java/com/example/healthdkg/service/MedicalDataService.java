@@ -44,8 +44,9 @@ public class MedicalDataService {
         // Set Doctors and Patient
         List<Doctor> doctors = getDoctors(medicalDataDto.getDoctorIds());
         Patient patient = getPatient(medicalDataDto.getPatientId());
-        medicalData.setDoctor(doctors);
+        medicalData.setDoctors(doctors);
         medicalData.setPatient(patient);
+
 
 
         return medicalData;

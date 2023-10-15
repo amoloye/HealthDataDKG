@@ -20,7 +20,8 @@ public class MedicalData {
     private Long medicalDataId;
 
 
-    @ManyToMany
+    @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "doctor_id")
     private List<Doctor> doctors;
 
     @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -34,9 +35,5 @@ public class MedicalData {
     @Enumerated(EnumType.STRING)
     private MedicalDataSensitivityLevel sensitivityLevel;
 
-
-    public void setDoctor(List<Doctor> doctor) {
-        this.doctors = doctor;
-    }
 
 }
