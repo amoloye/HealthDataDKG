@@ -3,6 +3,7 @@ package com.example.healthdkg.service;
 import com.example.healthdkg.dto.MedicalDataDto;
 import com.example.healthdkg.dto.MedicalDataRequest;
 import com.example.healthdkg.dto.MedicalDataResponse;
+import com.example.healthdkg.dto.PatientRequest;
 import com.example.healthdkg.model.*;
 import com.example.healthdkg.repository.DoctorRepository;
 import com.example.healthdkg.repository.MedicalDataRepository;
@@ -100,8 +101,15 @@ public class MedicalDataService {
 
     public List<MedicalData> getMedicalDataByPatientIds(MedicalDataRequest request) {
         List<Long> patientIds = request.getPatientIds();
-        return medicalDataRepository.findByPatientIds(patientIds);
+        return medicalDataRepository.findAllByPatientIds(patientIds);
     }
+
+
+    public List<MedicalData> getMedicalDataByPatientIdList(PatientRequest request) {
+        List<Long> patientIds = request.getPatientIds();
+        return medicalDataRepository.findAllByPatientIds(patientIds);
+    }
+
 
 
     public MedicalDataResponse convertMedicalDataToResponse(MedicalData medicalData) {

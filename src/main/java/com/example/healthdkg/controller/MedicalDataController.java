@@ -3,6 +3,7 @@ package com.example.healthdkg.controller;
 import com.example.healthdkg.dto.MedicalDataDto;
 import com.example.healthdkg.dto.MedicalDataRequest;
 import com.example.healthdkg.dto.MedicalDataResponse;
+import com.example.healthdkg.dto.PatientRequest;
 import com.example.healthdkg.model.MedicalData;
 import com.example.healthdkg.service.MedicalDataService;
 import jakarta.validation.Valid;
@@ -47,11 +48,12 @@ public class MedicalDataController {
         return ResponseEntity.ok(medicalData);
     }
 
-    @GetMapping("/get-by-patient-ids")
-    public ResponseEntity<List<MedicalData>> getMedicalDataByPatientIds(@RequestBody MedicalDataRequest request) {
-        List<Long> patientIds = request.getPatientIds();
-        List<MedicalData> medicalDataList =
-                medicalDataService.getMedicalDataByPatientIds((MedicalDataRequest) patientIds);
+    @PostMapping("/get-by-patient-ids")
+    public ResponseEntity<List<MedicalData>> getMedicalDataByPatientIds(@RequestBody PatientRequest patientRequest) {
+        List<Long> patientIds = patientRequest.getPatientIds();
+        List<MedicalData> medicalDataList = medicalDataService.getMedicalDataByPatientIdList(patientRequest);
         return ResponseEntity.ok(medicalDataList);
     }
+
+
 }
