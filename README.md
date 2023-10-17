@@ -63,7 +63,7 @@ specialityName (String): Name of the medical speciality.
 Attributes:
 personId (Long): Unique identifier for the person.
 
-personalCode (String): Personal code following a specific pattern (e.g., gender, birth year, month, day, society identifier).
+personal code (String): Personal code following a specific pattern (e.g., gender, birth year, month, day, society identifier).
 
 emailAddress (String): Email address of the person.
 
