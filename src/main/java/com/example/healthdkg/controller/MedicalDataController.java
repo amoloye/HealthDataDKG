@@ -36,17 +36,17 @@ public class MedicalDataController {
     }
 
 
-
     @GetMapping("/get-health-data-list-by-sensitivity")
-    public ResponseEntity<Page<MedicalDataResponse>> getMedicalDataBySensitivityLevel
-            (@RequestBody MedicalDataRequest request,
-             @RequestParam(defaultValue = "0") int offset,
-             @RequestParam(defaultValue = "5") int pageSize) {
+    public ResponseEntity<Page<MedicalDataResponse>> getMedicalDataBySensitivityLevel(
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestParam(defaultValue = "5") int pageSize,
+            MedicalDataRequest request) {
 
         Page<MedicalDataResponse> medicalData =
                 medicalDataService.getMedicalDataBySensitivityLevel(request, offset, pageSize);
         return ResponseEntity.ok(medicalData);
     }
+
 
     @PostMapping("/get-by-patient-ids")
     public ResponseEntity<List<MedicalData>> getMedicalDataByPatientIds(@RequestBody PatientRequest patientRequest) {

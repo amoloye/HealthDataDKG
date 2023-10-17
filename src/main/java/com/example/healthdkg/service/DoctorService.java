@@ -68,8 +68,6 @@ public class DoctorService {
 
 
 
-
-
     public Doctor getDoctor(Long doctorId) {
         return doctorRepository.findById(doctorId).orElse(null);
     }

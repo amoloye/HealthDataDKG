@@ -65,6 +65,19 @@ public class MedicalDataService {
         medicalDataRepository.saveAll(medicalDataList);
     }
 
+    //for getting all medical data without filter
+    public List<MedicalData> getMedicalDataByPatientIdList(PatientRequest request) {
+        List<Long> patientIds = request.getPatientIds();
+        return medicalDataRepository.findAllByPatientIds(patientIds);
+    }
+
+
+    public List<MedicalData> getMedicalDataByPatientIds(MedicalDataRequest request) {
+        List<Long> patientIds = request.getPatientIds();
+        return medicalDataRepository.findAllByPatientIds(patientIds);
+    }
+
+
 
     //main function to query medical data
 
@@ -99,19 +112,6 @@ public class MedicalDataService {
 
 
 
-    public List<MedicalData> getMedicalDataByPatientIds(MedicalDataRequest request) {
-        List<Long> patientIds = request.getPatientIds();
-        return medicalDataRepository.findAllByPatientIds(patientIds);
-    }
-
-
-    public List<MedicalData> getMedicalDataByPatientIdList(PatientRequest request) {
-        List<Long> patientIds = request.getPatientIds();
-        return medicalDataRepository.findAllByPatientIds(patientIds);
-    }
-
-
-
     public MedicalDataResponse convertMedicalDataToResponse(MedicalData medicalData) {
         List<Long> doctorIds = medicalData.getDoctors().stream()
                 .map(Doctor::getDoctorId)
@@ -137,7 +137,6 @@ public class MedicalDataService {
                     List<Doctor> doctorsInMedicalData = medicalData.getDoctors();
 
                     return switch (dataSensitivityLevel) {
-                        case CLOSED -> false;
 
                         case OPEN_TO_SPECIFIC_DOCTOR ->
                                 doctorService.isDoctorInList(doctorsInMedicalData, doctorId);

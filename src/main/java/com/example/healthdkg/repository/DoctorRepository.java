@@ -16,7 +16,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Page<Doctor> findAll (Pageable pageable);
 
 
-    @Query(value = "SELECT * FROM doctor d WHERE d.speciality_id = :specialityId", nativeQuery = true)
+    @Query(value = "SELECT * FROM health_data.doctor d WHERE d.speciality_id = :specialityId", nativeQuery = true)
     List<Doctor> findAllByMedicalSpeciality_SpecialityId(@Param("specialityId") Long specialityId);
 
 
