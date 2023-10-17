@@ -1,62 +1,48 @@
-# HealthDataDKG
+# Medical Data Management System 
 
-Spring Boot Application Documentation
-Introduction
-This documentation provides an overview of a Spring Boot application designed to manage doctor information. The application uses Hibernate for data persistence and provides API endpoints to perform CRUD (Create, Read, Update, Delete) operations on doctor records.
+#Introduction
 
-Table of Contents
-Project Structure
-Entity Classes
-Database Configuration
-API Endpoints
-Running the Application
+The Medical Data Management System is a web application designed to store and retrieve medical data records. This system provides endpoints for adding, retrieving, and managing medical data entries. It also includes functionality for filtering data based on sensitivity levels and other criteria.
 
-1. Project Structure <a name="project-structure"></a>
-The project follows the standard Spring Boot project structure:
+#Table of Contents
+1. Endpoints
+2. Controllers
+3. Services
+4. Entities
+5. Database Connection
+6. DTOs
+7. Repositories
+8. Enums
+9. Error Handling
+10. Usage
 
-src/
-|-- main/
-|   |-- java/
-|   |   |-- com.example/
-|   |   |   |-- application/
-|   |   |   |   |-- Application.java
-|   |   |   |-- controllers/
-|   |   |   |   |-- DoctorController.java
-|   |   |   |-- models/
-|   |   |   |   |-- Doctor.java
-|   |   |   |   |-- MedicalSpeciality.java
-|   |   |   |   |-- Person.java
-|   |   |   |-- repositories/
-|   |   |   |   |-- DoctorRepository.java
-|   |   |   |   |-- MedicalSpecialityRepository.java
-|   |   |   |   |-- PersonRepository.java
-|   |   |   |-- services/
-|   |   |   |   |-- DoctorService.java
-|   |   |   |   |-- MedicalSpecialityService.java
-|   |   |   |   |-- PersonService.java
-|-- resources/
-|   |-- application.properties
-|   |-- data.sql
-|   |-- schema.sql
+1. # Medical Data Endpoints<a name="endpoints"></a>
+1. POST /health/person-health-data: Adds a single medical data entry.
+2. POST /health/person-health-data-list: Adds a list of medical data entries.
+3. GET /health/get-health-data-list-by-sensitivity: Retrieves medical data based on sensitivity levels.
+4. POST /health/get-by-patient-ids: Retrieves medical data by patient IDs.
 
 
-Application.java: Main entry point of the Spring Boot application.
+2. #Controllers<a name="controllers"></a>
+MedicalDataController
+1. addMedicalData: Adds a single medical data entry.
+2. addMedicalDataList: Adds a list of medical data entries.
+3. getMedicalDataBySensitivityLevel: Retrieves medical data based on sensitivity levels.
+4. getMedicalDataByPatientIds: Retrieves medical data by patient IDs.
 
-DoctorController.java: Controller handling API endpoints related to doctors.
+#3.Services<a name="services"></a>
+MedicalDataService
+1. saveMedicalData: Saves a single medical data entry.
+2. saveMedicalDataList: Saves a list of medical data entries.
+3. getMedicalDataByPatientIdList: Retrieves medical data by patient IDs.
+4. getMedicalDataByPatientIds: Retrieves medical data by patient IDs.
+5. getMedicalDataBySensitivityLevel: Retrieves medical data based on sensitivity levels.
+6. convertMedicalDataToResponse: Converts medical data entity to response DTO.
+7. filterValidMedicalData: Filters valid medical data based on sensitivity levels and doctor information.
 
-Doctor.java, MedicalSpeciality.java, Person.java: Entity classes representing doctors, medical specialities, and persons.
+4. #Entity Classes <a name="entity-classes"></a>
 
-DoctorRepository.java, MedicalSpecialityRepository.java, PersonRepository.java: Repositories for database operations.
-
-DoctorService.java, MedicalSpecialityService.java, PersonService.java: Service classes to handle business logic.
-
-application.properties: Configuration file for database connection and Hibernate settings.
-
-data.sql, schema.sql: SQL scripts for initializing the database schema and inserting sample data.
-
-2. Entity Classes <a name="entity-classes"></a>
-
-2.1 Doctor
+4.1 Doctor
 Attributes:
 doctorId (Long): Unique identifier for the doctor.
 
@@ -68,12 +54,12 @@ medicalSpeciality (MedicalSpeciality): Reference to the doctor's medical special
 
 person (Person): Reference to the person associated with the doctor.
 
-2.2 MedicalSpeciality
+4.2 MedicalSpeciality
 Attributes:
 specialityId (Long): Unique identifier for the medical speciality.
 specialityName (String): Name of the medical speciality.
 
-2.3 Person
+4.3 Person
 Attributes:
 personId (Long): Unique identifier for the person.
 
@@ -85,16 +71,58 @@ name (String): First name of the person.
 
 familyName (String): Last name of the person.
 
-3.1 Database Connection
+5.1 Database Connection
 The application is configured to connect to a MySQL database. The connection details can be specified in the application.properties file
 
-4. API Endpoints <a name="api-endpoints"></a>
-The application provides the following API endpoints:
+# Database connection properties
+spring.datasource.url=jdbc:mysql://localhost:3306/health_data
+spring.datasource.username= root
+spring.datasource.password= *********
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
-GET /doctors: Retrieve a list of all doctors.
-GET /doctors/{doctorId}: Retrieve details of a specific doctor.
-POST /doctors: Create a new doctor.
-PUT /doctors/{doctorId}: Update details of a specific doctor.
+
+# Hibernate properties
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+# Logging
+logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+#swagger
+springdoc.swagger-ui.use-root-path=true
+springdoc.swagger-ui.path=/swagger.html
+springdoc.api-docs.path=/docs
+
+6. #DTOs<a name="dtos"></a>
+#MedicalDataDto
+1. Represents a data transfer object for medical data.
+2. Contains details like doctor IDs, patient ID, classifier, doctors' report, etc.
+
+#MedicalDataResponse
+Represents a data transfer object for medical data responses.
+Contains details like medical data ID, doctor IDs, patient ID, classifier, doctors' report, etc.
+
+#PatientRequest
+Represents a request DTO for retrieving medical data by patient IDs.
+Contains a list of patient IDs.
+
+
+7. #Repositories<a name="repositories"></a>
+MedicalDataRepository: Handles database operations for medical data entities.
+
+8. #Enums<a name="enums"></a>
+MedicalDataSensitivityLevel: Represents sensitivity levels for medical data.
+
+9. £Error Handling<a name="error-handling"></a>
+The system handles errors with appropriate HTTP status codes and error messages.
+Common error cases include missing request bodies and invalid data.
+
+10. #Usage<a name="usage"></a>
+1. Use the provided endpoints to add and retrieve medical data entries.
+2. Ensure that valid data is provided for each request, including sensitive information.
+3. Handle any errors returned by the system, making sure to address missing or invalid data.
 
 For further details on how to interact with the API or customize the application, refer to the codebase and relevant Spring Boot documentation.
 
