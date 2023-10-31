@@ -35,7 +35,7 @@ public class MedicalDataController {
         return ResponseEntity.ok("Medical Data saved successfully.");
     }
 
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-health-data-list-by-sensitivity")
     public ResponseEntity<Page<MedicalDataResponse>> getMedicalDataBySensitivityLevel(
             @RequestParam(defaultValue = "0") int offset,
@@ -47,9 +47,9 @@ public class MedicalDataController {
         return ResponseEntity.ok(medicalData);
     }
 
-
-    @PostMapping("/get-by-patient-ids")
-    public ResponseEntity<List<MedicalData>> getMedicalDataByPatientIds(@RequestBody PatientRequest patientRequest) {
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/get-by-patient-ids")
+    public ResponseEntity<List<MedicalData>> getMedicalDataByPatientIds(PatientRequest patientRequest) {
         List<Long> patientIds = patientRequest.getPatientIds();
         List<MedicalData> medicalDataList = medicalDataService.getMedicalDataByPatientIdList(patientRequest);
         return ResponseEntity.ok(medicalDataList);

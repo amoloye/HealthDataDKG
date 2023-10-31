@@ -16,8 +16,5 @@ public class PatientRequest {
         return patientIds;
     }
 
-    public void setPatientIds(List<Long> patientIds) {
-        this.patientIds = patientIds;
-    }
 }
 
